@@ -1,0 +1,7 @@
+{
+  "name": "MEB Estudio Gráfico - Gestión de Producción",
+  "description": "Sistema interno para gestión de trabajos de producción, kits, clientes, máquinas y órdenes de trabajo de MEB Estudio Gráfico.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

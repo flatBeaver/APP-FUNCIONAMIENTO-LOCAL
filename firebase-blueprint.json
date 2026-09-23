@@ -1,0 +1,110 @@
+{
+  "entities": {
+    "Job": {
+      "title": "Job",
+      "description": "Orden de trabajo o trabajo de producción del taller MEB Estudio Gráfico",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64, "description": "Identificador único de la orden (ej. PRD-0001)" },
+        "kit": { "type": "string", "maxLength": 256, "description": "Nombre del producto o kit" },
+        "tipo": { "type": "string", "maxLength": 128, "description": "Tipo de trabajo (Kit, Producto, etc.)" },
+        "clienteId": { "type": "string", "maxLength": 128, "description": "ID del cliente asociado" },
+        "clienteNombre": { "type": "string", "maxLength": 256, "description": "Nombre o razón social del cliente" },
+        "modelo": { "type": "string", "maxLength": 256, "description": "Modelo del producto" },
+        "numSerie": { "type": "string", "maxLength": 128, "description": "Número de serie o lote" },
+        "codigoKit": { "type": "string", "maxLength": 128, "description": "Código de referencia o SKU" },
+        "cantidad": { "type": "number", "description": "Cantidad de piezas a producir" },
+        "material": { "type": "string", "maxLength": 128, "description": "Material de producción" },
+        "tipoVinilo": { "type": "string", "maxLength": 128, "description": "Tipo de vinilo" },
+        "dimensiones": { "type": "string", "maxLength": 128, "description": "Dimensiones en milímetros" },
+        "maquina": { "type": "string", "maxLength": 128, "description": "Máquina asignada (plotter, mesa de corte)" },
+        "ubicacionArchivos": { "type": "string", "maxLength": 512, "description": "Ruta en servidor o archivo RIP" },
+        "metodoEntrega": { "type": "string", "maxLength": 128, "description": "Método de entrega o recogida" },
+        "prioridad": { "type": "string", "maxLength": 64, "description": "Nivel de prioridad" },
+        "estado": { "type": "string", "maxLength": 128, "description": "Estado actual de la orden en taller" },
+        "fechaInicio": { "type": "string", "maxLength": 32, "description": "Fecha de inicio AAAA-MM-DD" },
+        "diasAsignados": { "type": "number", "description": "Días laborables asignados" },
+        "fechaVencimiento": { "type": "string", "maxLength": 32, "description": "Fecha de vencimiento AAAA-MM-DD" },
+        "avance": { "type": "number", "description": "Porcentaje de avance (0 a 100)" },
+        "responsable": { "type": "string", "maxLength": 128, "description": "Operador o puesto responsable" },
+        "notas": { "type": "string", "maxLength": 2048, "description": "Comentarios técnicos" },
+        "fechaCreacion": { "type": "string", "maxLength": 32, "description": "Fecha de creación AAAA-MM-DD" },
+        "fechaArchivo": { "type": "string", "maxLength": 32, "description": "Fecha de archivo si está finalizado" }
+      },
+      "required": ["id", "kit", "estado", "fechaInicio", "diasAsignados", "fechaVencimiento"]
+    },
+    "Client": {
+      "title": "Client",
+      "description": "Ficha de cliente del taller",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64, "description": "ID del cliente" },
+        "nombre": { "type": "string", "maxLength": 256, "description": "Nombre de contacto o cliente" },
+        "empresa": { "type": "string", "maxLength": 256, "description": "Nombre de la empresa" },
+        "telefono": { "type": "string", "maxLength": 64, "description": "Teléfono de contacto" },
+        "email": { "type": "string", "maxLength": 256, "description": "Correo electrónico" },
+        "direccion": { "type": "string", "maxLength": 512, "description": "Dirección fiscal o de entrega" },
+        "nifCif": { "type": "string", "maxLength": 64, "description": "NIF o CIF" },
+        "notas": { "type": "string", "maxLength": 2048, "description": "Observaciones de cliente" },
+        "fechaAlta": { "type": "string", "maxLength": 32, "description": "Fecha de alta AAAA-MM-DD" }
+      },
+      "required": ["id", "nombre", "fechaAlta"]
+    },
+    "AppConfig": {
+      "title": "AppConfig",
+      "description": "Configuración global de parámetros, estados y festivos del taller",
+      "type": "object",
+      "properties": {
+        "estados": { "type": "array", "description": "Lista de estados disponibles" },
+        "prioridades": { "type": "array", "description": "Lista de prioridades" },
+        "materiales": { "type": "array", "description": "Lista de materiales" },
+        "tiposVinilo": { "type": "array", "description": "Lista de vinilos" },
+        "maquinas": { "type": "array", "description": "Lista de máquinas" },
+        "metodosEntrega": { "type": "array", "description": "Métodos de entrega" },
+        "postprocesados": { "type": "array", "description": "Acabados disponibles" },
+        "responsables": { "type": "array", "description": "Operadores" },
+        "tipos": { "type": "array", "description": "Tipos de trabajos" },
+        "ubicaciones": { "type": "array", "description": "Ubicaciones" },
+        "festivos": { "type": "array", "description": "Festivos del calendario" },
+        "parametros": { "type": "object", "description": "Parámetros de cálculo y alertas" },
+        "updatedAt": { "type": "string", "maxLength": 64, "description": "Fecha y hora de actualización" }
+      },
+      "required": ["parametros"]
+    },
+    "Backup": {
+      "title": "Backup",
+      "description": "Copia de seguridad completa en la nube (jobs, clients, config)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "description": "ID del backup" },
+        "timestamp": { "type": "string", "maxLength": 64, "description": "Marca temporal ISO del backup" },
+        "label": { "type": "string", "maxLength": 256, "description": "Etiqueta o motivo del backup" },
+        "operador": { "type": "string", "maxLength": 128, "description": "Operador que generó la copia" },
+        "totalJobs": { "type": "number", "description": "Total de órdenes respaldadas" },
+        "totalClients": { "type": "number", "description": "Total de clientes respaldados" },
+        "jobs": { "type": "array", "description": "Snapshot de órdenes de trabajo" },
+        "clients": { "type": "array", "description": "Snapshot de clientes" },
+        "config": { "type": "object", "description": "Snapshot de configuración" }
+      },
+      "required": ["id", "timestamp", "totalJobs", "totalClients"]
+    }
+  },
+  "firestore": {
+    "/jobs/{jobId}": {
+      "schema": "Job",
+      "description": "Órdenes de producción y trabajos del taller"
+    },
+    "/clients/{clientId}": {
+      "schema": "Client",
+      "description": "Registro de clientes de MEB Estudio Gráfico"
+    },
+    "/config/{configId}": {
+      "schema": "AppConfig",
+      "description": "Parámetros y configuraciones maestras del taller"
+    },
+    "/backups/{backupId}": {
+      "schema": "Backup",
+      "description": "Backups y copias de seguridad históricas guardadas en Firebase"
+    }
+  }
+}

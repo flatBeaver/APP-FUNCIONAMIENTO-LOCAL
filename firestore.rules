@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    match /jobs/{jobId} {
+      allow read: if isValidId(jobId);
+      allow create, update: if isValidId(jobId) && 
+        request.resource.data.id is string &&
+        request.resource.data.kit is string &&
+        request.resource.data.kit.size() <= 256;
+      allow delete: if isValidId(jobId);
+    }
+
+    match /clients/{clientId} {
+      allow read: if isValidId(clientId);
+      allow create, update: if isValidId(clientId) && 
+        request.resource.data.nombre is string &&
+        request.resource.data.nombre.size() <= 256;
+      allow delete: if isValidId(clientId);
+    }
+
+    match /config/{configId} {
+      allow read: if isValidId(configId);
+      allow create, update: if isValidId(configId);
+      allow delete: if false;
+    }
+
+    match /backups/{backupId} {
+      allow read: if isValidId(backupId);
+      allow create: if isValidId(backupId) &&
+        request.resource.data.id is string &&
+        request.resource.data.timestamp is string;
+      allow update: if false;
+      allow delete: if isValidId(backupId);
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
